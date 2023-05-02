@@ -1,0 +1,7 @@
+.QtMainWindow,.QMenuBar,.statusBar,.MainWindow, .TextEdit  {
+    border-color: #000000;
+    background-color: hsl(0, 0%, 100%);
+    color: #000000;
+    QtGui.QFont("Times", 14);
+    QTextEdit { selection-background-color: #000; selection-color: #fff; }
+}

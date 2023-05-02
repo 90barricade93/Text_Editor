@@ -3,9 +3,29 @@
 # import modules
 from PyQt6.QtGui import QIcon, QAction
 from PyQt6.QtCore import Qt
-from PyQt6.QtWidgets import QApplication, QMainWindow, QTextEdit, QFileDialog, QMessageBox
+from PyQt6.QtWidgets import QApplication, QMainWindow, QTextEdit, QFileDialog, QMessageBox, QSplashScreen
 from PyQt6 import QtWidgets, QtGui, QtCore
 import sys
+
+# A splash screen that shows a 800x800 image for 8 seconds before the main window appears
+class SplashScreen(QSplashScreen):
+    def __init__(self):
+        super().__init__(QPixmap("icons/splash.png"))
+        self.setWindowFlags(Qt.WindowType.WindowStaysOnTopHint | Qt.WindowType.FramelessWindowHint)
+        self.setEnabled(False)
+        self.setMask(self.pixmap().mask())
+        self.show()
+        QtCore.QTimer.singleShot(8000, self.close)
+
+
+# Main application
+class App(QApplication):
+    def __init__(self, sys_argv):
+        super().__init__(sys_argv)
+        self.splashScreen.show()
+        self.mainWindow.show()
+        self.splashScreen = SplashScreen()
+        self.mainWindow = MainWindow()
 
 
 # Main window
@@ -13,9 +33,6 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
 
-        # set background image in png format
-        self.setStyleSheet("background-image: url(icons/background.png)")
-        
         # set window title
         self.setWindowTitle("Text Editor")
 
@@ -23,7 +40,7 @@ class MainWindow(QMainWindow):
         self.setWindowIcon(QIcon("icons/icon.png"))
 
         # set window size
-        self.setGeometry(100, 100, 800, 600)
+        self.setGeometry(100, 100, 1200, 800)
 
         # create text editor
         self.textEdit = QTextEdit(self)
@@ -46,6 +63,9 @@ class MainWindow(QMainWindow):
         # set text editor text cursor
         self.textEdit.setTextCursor(QtGui.QTextCursor())
 
+        # set text editor text cursor color
+        self.textEdit.setStyleSheet("QTextEdit { selection-background-color: #000; selection-color: #fff; }")
+        
         # set text editor as central widget
         self.setCentralWidget(self.textEdit)
 
@@ -154,7 +174,7 @@ class MainWindow(QMainWindow):
         # add help menu actions
         self.helpMenu.addAction(self.aboutAction)
 
-        # create tool bar
+        # create tool bar and add actions
         self.toolBar = self.addToolBar("Tool Bar")
 
         # add tool bar actions
@@ -166,9 +186,6 @@ class MainWindow(QMainWindow):
         self.toolBar.addAction(self.pasteAction)
         self.toolBar.addAction(self.selectAllAction)
         self.toolBar.addAction(self.clearAllAction)
-        self.toolBar.addAction(self.darkThemeAction)
-        self.toolBar.addAction(self.lightThemeAction)
-        self.toolBar.addAction(self.aboutAction)
 
         # set window title
         self.setWindowTitle("Text Editor")
@@ -272,7 +289,6 @@ class MainWindow(QMainWindow):
         except Exception as e:
             print(e)
 
-      
         # create label
         self.aboutLabel = QtWidgets.QLabel()
         self.aboutLabel.setText(aboutText)
@@ -295,8 +311,18 @@ class MainWindow(QMainWindow):
 # create pyqt6 app
 app = QtWidgets.QApplication(sys.argv)
 
+
+
 # create the instance of our Window
 window = MainWindow()
+
+# load empty.txt before start the app
+try:
+    with open("empty.rdv", "r") as file:
+        # read file
+        window.textEdit.setText(file.read())
+except Exception as e:
+    print(e)
 
 # start the app
 sys.exit(app.exec())
