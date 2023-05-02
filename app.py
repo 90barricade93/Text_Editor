@@ -308,14 +308,19 @@ splash = QSplashScreen(QPixmap('icons/splash.png'))
 splash.setFixedSize(600, 600)
 splash.heightForWidth(800)
 splash.show()
+# wait 3 seconds
 time.sleep(3)
             
-# Create the main window and wait 5 seconds
+# Create the main window
 window = MainWindow()
 window.show()
         
-# Close the splash screen 5 seconds after the main window is shown
+# Close the splash screen 
 QTimer.singleShot(10, splash.close)
+
+#trigger about button
+window.about()
+
 
 sys.exit(app.exec())
 
