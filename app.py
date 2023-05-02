@@ -1,32 +1,11 @@
 # Text editor app
 
 # import modules
-from PyQt6.QtGui import QIcon, QAction
+from PyQt6.QtGui import QIcon, QAction, QPixmap
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import QApplication, QMainWindow, QTextEdit, QFileDialog, QMessageBox, QSplashScreen
 from PyQt6 import QtWidgets, QtGui, QtCore
 import sys
-
-# A splash screen that shows a 800x800 image for 8 seconds before the main window appears
-class SplashScreen(QSplashScreen):
-    def __init__(self):
-        super().__init__(QPixmap("icons/splash.png"))
-        self.setWindowFlags(Qt.WindowType.WindowStaysOnTopHint | Qt.WindowType.FramelessWindowHint)
-        self.setEnabled(False)
-        self.setMask(self.pixmap().mask())
-        self.show()
-        QtCore.QTimer.singleShot(8000, self.close)
-
-
-# Main application
-class App(QApplication):
-    def __init__(self, sys_argv):
-        super().__init__(sys_argv)
-        self.splashScreen.show()
-        self.mainWindow.show()
-        self.splashScreen = SplashScreen()
-        self.mainWindow = MainWindow()
-
 
 # Main window
 class MainWindow(QMainWindow):
@@ -308,24 +287,33 @@ class MainWindow(QMainWindow):
         # show dialog
         self.aboutDialog.exec()
 
-# create pyqt6 app
-app = QtWidgets.QApplication(sys.argv)
-
-
-
-# create the instance of our Window
-window = MainWindow()
 
 # load empty.txt before start the app
 try:
     with open("empty.rdv", "r") as file:
         # read file
         window.textEdit.setText(file.read())
+        # black color text
+        self.textEdit.setStyleSheet("color: #000")
 except Exception as e:
     print(e)
 
 # start the app
-sys.exit(app.exec())
+    app = QApplication(sys.argv)
+    
+    # Show the splash screen
+    splash = QSplashScreen()
+
+    # Create the main window
+    window = MainWindow()
+
+    # Show the main window
+    window.show()
+
+    # Close the splash screen after the main window is shown
+    splash.close()
+
+    sys.exit(app.exec())
 
 
 
