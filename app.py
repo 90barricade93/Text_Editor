@@ -2,10 +2,12 @@
 
 # import modules
 from PyQt6.QtGui import QIcon, QAction, QPixmap
-from PyQt6.QtCore import Qt
+from PyQt6.QtCore import Qt, QTimer
 from PyQt6.QtWidgets import QApplication, QMainWindow, QTextEdit, QFileDialog, QMessageBox, QSplashScreen
 from PyQt6 import QtWidgets, QtGui, QtCore
 import sys
+import os
+import time
 
 # Main window
 class MainWindow(QMainWindow):
@@ -150,6 +152,8 @@ class MainWindow(QMainWindow):
         self.aboutAction.setShortcut("Ctrl+H")
         self.aboutAction.triggered.connect(self.about)
 
+
+
         # add help menu actions
         self.helpMenu.addAction(self.aboutAction)
 
@@ -257,7 +261,7 @@ class MainWindow(QMainWindow):
         self.aboutDialog = QtWidgets.QDialog(self)
         self.aboutDialog.setWindowTitle("About")
         self.aboutDialog.setWindowIcon(QIcon("icons/icon.png"))
-        self.aboutDialog.setFixedSize(300, 300)
+        self.aboutDialog.setFixedSize(400, 300)
         
         # read about file
         try:
@@ -287,33 +291,33 @@ class MainWindow(QMainWindow):
         # show dialog
         self.aboutDialog.exec()
 
+        # load empty.txt before start the app
+        try:
+                with open("empty.rdv", "r") as file:
+                # read file
+                    window.textEdit.setText(file.read())
+        except Exception as e:
+                print(e)
 
-# load empty.txt before start the app
-try:
-    with open("empty.rdv", "r") as file:
-        # read file
-        window.textEdit.setText(file.read())
-        # black color text
-        self.textEdit.setStyleSheet("color: #000")
-except Exception as e:
-    print(e)
-
-# start the app
-    app = QApplication(sys.argv)
+# start app
+app = QApplication(sys.argv)
+       
     
-    # Show the splash screen
-    splash = QSplashScreen()
+# Show the splash screen 800x800 resolution in middel of screen
+splash = QSplashScreen(QPixmap('icons/splash.png'))
+splash.setFixedSize(600, 600)
+splash.heightForWidth(800)
+splash.show()
+time.sleep(3)
+            
+# Create the main window and wait 5 seconds
+window = MainWindow()
+window.show()
+        
+# Close the splash screen 5 seconds after the main window is shown
+QTimer.singleShot(10, splash.close)
 
-    # Create the main window
-    window = MainWindow()
-
-    # Show the main window
-    window.show()
-
-    # Close the splash screen after the main window is shown
-    splash.close()
-
-    sys.exit(app.exec())
+sys.exit(app.exec())
 
 
 
