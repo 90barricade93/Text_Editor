@@ -9,7 +9,7 @@ This is a simple text editor application created using PyQt6. It allows users to
 1. Clone the repository
 
 ```
-git clone https://github.com/your-username/text-editor-app.git
+git clone https://https://github.com/90barricade93/Text_Editor.Git
 ```
 
 2. Install the required packages using `pip`

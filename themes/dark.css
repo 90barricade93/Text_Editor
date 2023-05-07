@@ -1,10 +1,6 @@
-.QtMainWindow,.QMenuBar,.statusBar,.MainWindow, .TextEdit, .QApplication  {
-    border-color: #000000;
-    background-color: hsl(207, 5%, 40%);
-    color: #000000;
-    QtGui.QFont("Times", 14);
-    QTextEdit { selection-background-color: #000; selection-color: #fff; }
-}
+/* Path: themes\dark.css */
+
+.
 
 
     

@@ -248,7 +248,7 @@ class MainWindow(QMainWindow):
         style = open("themes/dark.css", "r")
         style = style.read()
         self.setStyleSheet(style)
-
+        
     # create light theme method
     def lightTheme(self):
         # set light theme stylesheet
@@ -267,7 +267,7 @@ class MainWindow(QMainWindow):
         
         # read about file
         try:
-            with open("about.txt", "r") as file:
+            with open("about.rdv", "r") as file:
                 
                 # read file
                 aboutText = file.read()
