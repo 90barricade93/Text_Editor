@@ -1,14 +1,14 @@
 # Text editor app
 
 # import modules
-from PyQt6.QtGui import QIcon, QAction, QPixmap
+from PyQt6.QtGui import QIcon, QPixmap
 from PyQt6.QtCore import Qt, QTimer
-from PyQt6.QtWidgets import QApplication, QMainWindow, QTextEdit, QFileDialog, QMessageBox, QSplashScreen
-from PyQt6 import QtWidgets, QtGui, QtCore
+from PyQt6.QtWidgets import QApplication, QMainWindow, QTextEdit, QSplashScreen
+from PyQt6 import QtWidgets, QtGui
 import sys
-import os
 import time
 
+# App
 # Main window
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -21,7 +21,7 @@ class MainWindow(QMainWindow):
         self.setWindowIcon(QIcon("icons/icon.png"))
 
         # set window size
-        self.setGeometry(100, 100, 1200, 800)
+        self.setGeometry(320, 250, 1200, 800)
 
         # create text editor
         self.textEdit = QTextEdit(self)
@@ -71,6 +71,7 @@ class MainWindow(QMainWindow):
         # create help menu
         self.helpMenu = self.menuBar.addMenu("Help")
 
+
         # create file menu actions
         # create new file action
         self.newFileAction = QtGui.QAction(QIcon("icons/new.png"), "New File", self)
@@ -97,6 +98,7 @@ class MainWindow(QMainWindow):
         self.fileMenu.addAction(self.openFileAction)
         self.fileMenu.addAction(self.saveFileAction)
         self.fileMenu.addAction(self.exitAction)
+
 
         # create edit menu actions
         # create cut action
@@ -131,6 +133,7 @@ class MainWindow(QMainWindow):
         self.editMenu.addAction(self.selectAllAction)
         self.editMenu.addAction(self.clearAllAction)
 
+
         # create view menu actions
         # create dark theme action
         self.darkThemeAction = QtGui.QAction(QIcon("icons/darkTheme.png"), "Dark Theme", self)
@@ -146,13 +149,12 @@ class MainWindow(QMainWindow):
         self.viewMenu.addAction(self.darkThemeAction)
         self.viewMenu.addAction(self.lightThemeAction)
 
+
         # create help menu actions
         # create about action
         self.aboutAction = QtGui.QAction(QIcon("icons/about.png"), "About", self)
         self.aboutAction.setShortcut("Ctrl+H")
         self.aboutAction.triggered.connect(self.about)
-
-
 
         # add help menu actions
         self.helpMenu.addAction(self.aboutAction)
@@ -200,7 +202,7 @@ class MainWindow(QMainWindow):
     # create save file method
     def saveFile(self):
         # get file path
-        filePath, _ = QtWidgets.QFileDialog.getSaveFileName(self, "Save File", "", "Text Files (*.txt);;Python Files (*.py);;All Files (*.*)")
+        filePath, _ = QtWidgets.QFileDialog.getSaveFileName(self, "Save File", "", "Text Files (*.txt);;All Files (*.*)")
 
         # save file
         try:
@@ -212,9 +214,9 @@ class MainWindow(QMainWindow):
 
     # create exit method
     def exit(self):
-        # exit
-        sys.exit()
-
+        # exit window
+        self.close()
+        
     # create cut method
     def cut(self):
         # cut text
@@ -299,9 +301,9 @@ class MainWindow(QMainWindow):
         except Exception as e:
                 print(e)
 
+
 # start app
-app = QApplication(sys.argv)
-       
+app = QApplication(sys.argv)     
     
 # Show the splash screen 800x800 resolution in middel of screen
 splash = QSplashScreen(QPixmap('icons/splash.png'))
@@ -318,22 +320,9 @@ window.show()
 # Close the splash screen 
 QTimer.singleShot(10, splash.close)
 
-#trigger about button
+#trigger about window
 window.about()
 
 
 sys.exit(app.exec())
-
-
-
-
-
-
-
-
-
-        
-
-
-
 
